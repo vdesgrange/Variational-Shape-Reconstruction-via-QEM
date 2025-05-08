@@ -1,4 +1,15 @@
+cmake_minimum_required(VERSION 3.31)
+
+project(VSE_QEM_Demo)
+
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 set(CGAL_Qt5_FOUND FALSE)
+set(CGAL_DIR /Users/vdesgrange/Development/C_projects/TinyScannerResearch/Variational-Shape-Reconstruction-via-QEM/vendor/CGAL-5.5.5)
+set(CGAL_SOURCE_DIR /Users/vdesgrange/Development/C_projects/TinyScannerResearch/Variational-Shape-Reconstruction-via-QEM/vendor/CGAL-5.5.5)
+set(CGAL_BINARY_DIR /Users/vdesgrange/Development/C_projects/TinyScannerResearch/Variational-Shape-Reconstruction-via-QEM/vendor/CGAL-5.5.5)
+set(Eigen_SOURCE_DIR /Users/vdesgrange/Development/C_projects/TinyScannerResearch/Variational-Shape-Reconstruction-via-QEM/vendor/eigen-3.4.0)
+set(Eigen_BINARY_DIR /Users/vdesgrange/Development/C_projects/TinyScannerResearch/Variational-Shape-Reconstruction-via-QEM/vendor/eigen-3.4.0)
 
 # add vendor
 add_subdirectory(vendor)
@@ -11,7 +22,7 @@ function(add_directory dir)
     source_group("Source Files\\${dir}" FILES ${DIR_SRC})
     file(GLOB DIR_HEADERS include/${dir}/*.h)
     source_group("Header Files\\${dir}" FILES ${DIR_HEADERS})
-    
+
     list(APPEND VSR_SRC_GROUPS ${DIR_SRC})
     set(VSR_SRC_GROUPS ${VSR_SRC_GROUPS} PARENT_SCOPE)
 
@@ -31,23 +42,23 @@ add_directory("knn")
 add_directory("core")
 add_directory("reconstruction")
 
-add_executable(${VSR_name} 
+add_executable(VSR_name 
     ${VSR_SRC} ${VSR_HEADERS}
     ${VSR_SRC_GROUPS} ${VSR_HEADER_GROUPS}
 )
 
 # compile features
-target_compile_features(${VSR_name} 
+target_compile_features(VSR_name 
     PRIVATE cxx_std_20
 )
 
 # include directories
-target_include_directories(${VSR_name}  
+target_include_directories(VSR_name 
     PRIVATE include
 )
 
 # link vendor libraries
-target_link_libraries(${VSR_name} 
+target_link_libraries(VSR_name 
     PRIVATE Eigen3::Eigen
     PRIVATE CGAL::CGAL
     PRIVATE SCIP_interface
@@ -55,16 +66,16 @@ target_link_libraries(${VSR_name}
     PRIVATE CGAL::CGAL_Basic_viewer
 )
 
-target_compile_definitions(${VSR_name} 
+target_compile_definitions(VSR_name 
     PRIVATE CGAL_USE_SCIP
 )
 
 # pch
-target_precompile_headers(${VSR_name} 
+target_precompile_headers(VSR_name 
     PRIVATE include/pch.h
 )
 
 # set properties
-set_target_properties(${VSR_name} PROPERTIES
+set_target_properties(VSR_name PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
 )
